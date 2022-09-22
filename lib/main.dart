@@ -55,7 +55,17 @@ class HomeScreen extends StatelessWidget {
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Column(
-          children: const <Widget>[],
+          children: List.generate(
+            5,
+            (index) => BlogCard(
+              image: 'image',
+              title: 'headline6',
+              desc: 'desc',
+              author: 'author',
+              authorImg: 'authorImg',
+              press: () {},
+            ),
+          ),
         ),
       )),
     );
@@ -117,6 +127,7 @@ class BlogCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(authorImg),
+                radius: 30,
               ),
               const SizedBox(
                 width: 20,
