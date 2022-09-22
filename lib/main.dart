@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
         home: const SplashScreen());
   }
 }
@@ -48,6 +46,92 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+      ),
+      body: SingleChildScrollView(
+          child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Column(
+          children: const <Widget>[],
+        ),
+      )),
+    );
+  }
+}
+
+class BlogCard extends StatelessWidget {
+  const BlogCard(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.desc,
+      required this.author,
+      required this.authorImg,
+      required this.press});
+
+  final String image, title, desc, author, authorImg;
+  final Function() press;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10), // boxShadow: [
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xFFA4A4A8),
+            offset: Offset(1.0, 5.0),
+            blurRadius: 7,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.network(image),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(authorImg),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
