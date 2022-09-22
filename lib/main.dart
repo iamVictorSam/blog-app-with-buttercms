@@ -72,6 +72,23 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+class BlogScreen extends StatelessWidget {
+  const BlogScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [
+            Image(image: NetworkImage('url')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class BlogCard extends StatelessWidget {
   const BlogCard(
       {super.key,
