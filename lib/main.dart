@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'api/blog.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -41,8 +43,21 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // Butter butter = Butter("08074ef496b7521de3aa69ae56875163ac0b1671");
+  final api = ProductApi();
+  @override
+  void initState() {
+    super.initState();
+    api.retrieve();
+  }
 
   @override
   Widget build(BuildContext context) {
