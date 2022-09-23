@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
         home: const SplashScreen());
@@ -53,9 +53,10 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
           child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          children: List.generate(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(children: [
+          const SizedBox(height: 15),
+          ...List.generate(
             5,
             (index) => BlogCard(
               image: 'image',
@@ -63,10 +64,10 @@ class HomeScreen extends StatelessWidget {
               desc: 'desc',
               author: 'author',
               authorImg: 'authorImg',
-              press: () {},
+              press: () => Get.to(() => const BlogScreen()),
             ),
           ),
-        ),
+        ]),
       )),
     );
   }
@@ -78,10 +79,50 @@ class BlogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
-          children: const [
-            Image(image: NetworkImage('url')),
+          children: [
+            // Image(image: NetworkImage('url')),
+            const FlutterLogo(
+              size: 250,
+            ),
+            const SizedBox(height: 10),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const CircleAvatar(),
+                    title: Text(
+                      'Author',
+                      style: TextStyle(
+                          color: Colors.teal[800],
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'date',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                      'Creating an Ecommerce App with Flutter and Medusa',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  const Text(
+                      'Flutter is a cross-platform UI toolkit that is designed to allow code reuse across operating systems such as iOS and Android, while also allowing applications to interface directly with underlying platform services.Medusa is an open source headless commence that allows users to build scalable and unique e-commerce stores and set up products seamlessly. It aids developers to build, manage and customize APIs fast and efficiently.Medusa comes with a lot of features among which are, an easy-to-use admin panel, it is free to use, has lots of plugins for different operations, and a large community support.This tutorial will demonstrate how to communicate with Medusa backend services from a Flutter application while building an e-commerce store. Medusa will handle our product creation. At the end of this tutorial, you will learn how to use Medusa to handle backend services.Below is a link to the source code for the complete flutter app',
+                      style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -104,61 +145,76 @@ class BlogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10), // boxShadow: [
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0xFFA4A4A8),
-            offset: Offset(1.0, 5.0),
-            blurRadius: 7,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(image),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, color: Colors.blueGrey),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(authorImg),
-                radius: 30,
+    return GestureDetector(
+      onTap: press,
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.only(bottom: 15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(7), // boxShadow: [
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(185, 181, 181, 182),
+              offset: Offset(1.0, 5.0),
+              blurRadius: 7,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image.network(image),
+            const FlutterLogo(
+              size: 150,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    title,
+                    style:
+                        const TextStyle(fontSize: 16, color: Colors.blueGrey),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const CircleAvatar(
+                      // backgroundImage: NetworkImage(authorImg),
+                      radius: 20,
+                      // backgroundImage: NetworkImage(authorImg),
+                      child: FlutterLogo(),
+                    ),
+                    title: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                width: 20,
-              ),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
