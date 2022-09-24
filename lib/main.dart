@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:blog_app/api/base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:http/http.dart' as http;
+import 'secret_key.dart';
 
 import 'api/blog.dart';
 
@@ -17,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
         home: const SplashScreen());
   }
@@ -53,10 +60,37 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Butter butter = Butter("08074ef496b7521de3aa69ae56875163ac0b1671");
   final api = ProductApi();
+  List data = [];
+
+  // static const String _apiKey = '08074ef496b7521de3aa69ae56875163ac0b1671';
+
+  Future retrieve() async {
+    const postsEndpoint = "v2/posts";
+    try {
+      final url = Uri.parse("${Base.baseUrl}/v2/posts?auth_token=$apiKey");
+
+      //https://api.buttercms.com/v2/posts/?auth_token=08074ef496b7521de3aa69ae56875163ac0b1671&exclude_body=true
+
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        var result = jsonDecode(response.body);
+
+        setState(() {
+          data = result['data'] as List;
+          print(data[0]['status']);
+        });
+        return result;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    api.retrieve();
+    retrieve();
+    // print(data.data);
   }
 
   @override
@@ -72,14 +106,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(children: [
           const SizedBox(height: 15),
           ...List.generate(
-            5,
+            data.length,
             (index) => BlogCard(
-              image: 'image',
-              title: 'headline6',
-              desc: 'desc',
-              author: 'author',
-              authorImg: 'authorImg',
-              press: () => Get.to(() => const BlogScreen()),
+              image: data[index]['featured_image'],
+              title: data[index]['title'],
+              desc: data[index]['summary'],
+              author:
+                  "${data[index]['author']['first_name']} ${data[index]['author']['last_name']}",
+              authorImg: data[index]['author']['profile_image'],
+              press: () => Get.to(() => BlogScreen(
+                    data: data[index],
+                  )),
             ),
           ),
         ]),
@@ -89,37 +126,40 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class BlogScreen extends StatelessWidget {
-  const BlogScreen({super.key});
+  const BlogScreen({super.key, required this.data});
+
+  final data;
 
   @override
   Widget build(BuildContext context) {
+    print(data['body']);
+    var date = DateTime.parse(data['updated']);
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Image(image: NetworkImage('url')),
-            const FlutterLogo(
-              size: 250,
-            ),
+            Image(image: NetworkImage(data['featured_image'])),
             const SizedBox(height: 10),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: <Widget>[
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const CircleAvatar(),
+                    leading: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(data['author']['profile_image']),
+                    ),
                     title: Text(
-                      'Author',
+                      "${data['author']['first_name']} ${data['author']['last_name']}",
                       style: TextStyle(
                           color: Colors.teal[800],
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      'date',
+                      date.toString(),
                       style: TextStyle(
                         color: Colors.grey[800],
                         fontSize: 16,
@@ -127,14 +167,13 @@ class BlogScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                      'Creating an Ecommerce App with Flutter and Medusa',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  Text(data['title'],
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
-                  const Text(
-                      'Flutter is a cross-platform UI toolkit that is designed to allow code reuse across operating systems such as iOS and Android, while also allowing applications to interface directly with underlying platform services.Medusa is an open source headless commence that allows users to build scalable and unique e-commerce stores and set up products seamlessly. It aids developers to build, manage and customize APIs fast and efficiently.Medusa comes with a lot of features among which are, an easy-to-use admin panel, it is free to use, has lots of plugins for different operations, and a large community support.This tutorial will demonstrate how to communicate with Medusa backend services from a Flutter application while building an e-commerce store. Medusa will handle our product creation. At the end of this tutorial, you will learn how to use Medusa to handle backend services.Below is a link to the source code for the complete flutter app',
-                      style: TextStyle(fontSize: 18)),
+                  Html(data: """
+                ${data['body']}
+                """),
                 ],
               ),
             )
@@ -181,10 +220,10 @@ class BlogCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image.network(image),
-            const FlutterLogo(
-              size: 150,
-            ),
+            Image.network(image),
+            // const FlutterLogo(
+            //   size: 150,
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
@@ -211,14 +250,13 @@ class BlogCard extends StatelessWidget {
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const CircleAvatar(
+                    leading: CircleAvatar(
                       // backgroundImage: NetworkImage(authorImg),
                       radius: 20,
-                      // backgroundImage: NetworkImage(authorImg),
-                      child: FlutterLogo(),
+                      backgroundImage: NetworkImage(authorImg),
                     ),
                     title: Text(
-                      title,
+                      author,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

@@ -1,3 +1,3 @@
 class Base {
-  static String baseUrl = 'api.buttercms.com';
+  static String baseUrl = 'https://api.buttercms.com';
 }
