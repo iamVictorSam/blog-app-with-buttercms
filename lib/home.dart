@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = true;
 
   Future retrieve() async {
-    const postsEndpoint = "v2/posts";
     try {
       final url = Uri.parse("${Base.baseUrl}/v2/posts?auth_token=$apiKey");
 
@@ -51,19 +50,49 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () => showSearch(
+        //             context: context,
+        //             delegate: SearchPage(
+        //               onQueryUpdate: print,
+        //               items: data,
+        //               searchLabel: 'Search Blog',
+        //               suggestion: const Center(
+        //                 child: Text('Filter blog by tag'),
+        //               ),
+        //               failure: const Center(
+        //                 child: Text('No blog found :('),
+        //               ),
+        //               filter: (blog) => blog['tags'][0]['name'],
+        //               // sort: (a, b) => a.compareTo(b),
+        //               builder: (blog) => BlogCard(
+        //                 image: data[blog]['featured_image'],
+        //                 title: data[blog]['title'],
+        //                 slug: data[blog]['slug'],
+        //                 desc: data[blog]['summary'],
+        //                 author:
+        //                     "${data[blog]['author']['first_name']} ${data[blog]['author']['last_name']}",
+        //                 authorImg: data[blog]['author']['profile_image'],
+        //                 press: () => Get.to(() => BlogScreen(
+        //                       data: data[blog],
+        //                     )),
+        //               ),
+        //             ),
+        //           ),
+        //       icon: const Icon(Icons.search))
+        // ],
       ),
       body: SingleChildScrollView(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(children: [
-          const SizedBox(height: 15),
-          isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) => BlogCard(
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(children: [
+                const SizedBox(height: 15),
+                ...List.generate(
+                  data.length,
+                  (index) => BlogCard(
                     image: data[index]['featured_image'],
                     title: data[index]['title'],
                     slug: data[index]['slug'],
@@ -76,22 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                   ),
                 ),
-          // ...List.generate(
-          //   data.length,
-          //   (index) => BlogCard(
-          //     image: data[index]['featured_image'],
-          //     title: data[index]['title'],
-          //     slug: data[index]['slug'],
-          //     desc: data[index]['summary'],
-          //     author:
-          //         "${data[index]['author']['first_name']} ${data[index]['author']['last_name']}",
-          //     authorImg: data[index]['author']['profile_image'],
-          //     press: () => Get.to(() => BlogScreen(
-          //           data: data[index],
-          //         )),
-          //   ),
-          // ),
-        ]),
+              ]),
       )),
     );
   }

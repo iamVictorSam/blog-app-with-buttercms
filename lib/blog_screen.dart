@@ -17,7 +17,9 @@ class BlogScreen extends StatelessWidget {
     var outputDate = DateFormat('MM/dd/yyyy hh:mm a').format(inputDate);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Blog'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -64,8 +66,6 @@ class BlogScreen extends StatelessWidget {
                           RenderContext context,
                           Map<String, String> attributes,
                           dom.Element? element) async {
-                        print(attributes);
-                        print(url);
                         await _launchURL(url);
                       }),
                 ],
@@ -78,7 +78,6 @@ class BlogScreen extends StatelessWidget {
   }
 
   _launchURL(url) async {
-    // const url = 'https://flutter.io';
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url, mode: LaunchMode.externalApplication);
     } else {
