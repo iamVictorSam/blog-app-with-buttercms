@@ -33,6 +33,7 @@ class BlogCard extends StatelessWidget {
             ),
           ],
         ),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -64,7 +65,6 @@ class BlogCard extends StatelessWidget {
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: CircleAvatar(
-                      // backgroundImage: NetworkImage(authorImg),
                       radius: 20,
                       backgroundImage: NetworkImage(authorImg),
                     ),
