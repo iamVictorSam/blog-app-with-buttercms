@@ -37,9 +37,6 @@ class BlogCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(tag: slug, child: Image.network(image)),
-            // const FlutterLogo(
-            //   size: 150,
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
