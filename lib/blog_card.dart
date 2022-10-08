@@ -33,11 +33,13 @@ class BlogCard extends StatelessWidget {
             ),
           ],
         ),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Hero(tag: slug, child: Image.network(image)),
+            Hero(
+              tag: slug,
+              child: Image.network(image, fit: BoxFit.cover),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(

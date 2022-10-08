@@ -47,48 +47,48 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () => showSearch(
-        //             context: context,
-        //             delegate: SearchPage(
-        //               onQueryUpdate: print,
-        //               items: data,
-        //               searchLabel: 'Search Blog',
-        //               suggestion: const Center(
-        //                 child: Text('Filter blog by tag'),
-        //               ),
-        //               failure: const Center(
-        //                 child: Text('No blog found :('),
-        //               ),
-        //               filter: (blog) => blog['tags'][0]['name'],
-        //               // sort: (a, b) => a.compareTo(b),
-        //               builder: (blog) => BlogCard(
-        //                 image: data[blog]['featured_image'],
-        //                 title: data[blog]['title'],
-        //                 slug: data[blog]['slug'],
-        //                 desc: data[blog]['summary'],
-        //                 author:
-        //                     "${data[blog]['author']['first_name']} ${data[blog]['author']['last_name']}",
-        //                 authorImg: data[blog]['author']['profile_image'],
-        //                 press: () => Get.to(() => BlogScreen(
-        //                       data: data[blog],
-        //                     )),
-        //               ),
-        //             ),
-        //           ),
-        //       icon: const Icon(Icons.search))
-        // ],
-      ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(children: [
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text('Home'),
+              // actions: [
+              //   IconButton(
+              //       onPressed: () => showSearch(
+              //             context: context,
+              //             delegate: SearchPage(
+              //               onQueryUpdate: print,
+              //               items: data,
+              //               searchLabel: 'Search Blog',
+              //               suggestion: const Center(
+              //                 child: Text('Filter blog by tag'),
+              //               ),
+              //               failure: const Center(
+              //                 child: Text('No blog found :('),
+              //               ),
+              //               filter: (blog) => blog['tags'][0]['name'],
+              //               // sort: (a, b) => a.compareTo(b),
+              //               builder: (blog) => BlogCard(
+              //                 image: data[blog]['featured_image'],
+              //                 title: data[blog]['title'],
+              //                 slug: data[blog]['slug'],
+              //                 desc: data[blog]['summary'],
+              //                 author:
+              //                     "${data[blog]['author']['first_name']} ${data[blog]['author']['last_name']}",
+              //                 authorImg: data[blog]['author']['profile_image'],
+              //                 press: () => Get.to(() => BlogScreen(
+              //                       data: data[blog],
+              //                     )),
+              //               ),
+              //             ),
+              //           ),
+              //       icon: const Icon(Icons.search))
+              // ],
+            ),
+            body: SingleChildScrollView(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(children: [
                 const SizedBox(height: 15),
                 ...List.generate(
                   data.length,
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ]),
-      )),
-    );
+            )),
+          );
   }
 }
