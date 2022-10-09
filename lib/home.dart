@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:blog_app/base.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future retrieveBlogPost() async {
     try {
-      final url = Uri.parse("${Base.baseUrl}/v2/posts?auth_token=$apiKey");
+      final url =
+          Uri.parse("https://api.buttercms.com/v2/posts?auth_token=$apiKey");
 
       final response = await http.get(url);
       if (response.statusCode == 200) {
