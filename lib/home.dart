@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             body: SingleChildScrollView(
                 child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(children: [
                 const SizedBox(height: 15),
                 ...List.generate(
