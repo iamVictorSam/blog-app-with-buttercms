@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'splash_screen.dart';
 
 void main() {
@@ -16,7 +15,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: 'ButterCMS Blog',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+          useMaterial3: true,
+        ),
         home: const SplashScreen());
   }
 }
