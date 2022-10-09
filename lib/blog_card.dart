@@ -20,13 +20,17 @@ class BlogCard extends StatelessWidget {
         onTap: press,
         child: Card(
           elevation: 5,
+          clipBehavior: Clip.hardEdge,
           margin: const EdgeInsets.only(bottom: 20),
           surfaceTintColor: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Hero(tag: slug, child: Image.network(image, fit: BoxFit.cover)),
+              Hero(
+                tag: slug,
+                child: Image.network(image, fit: BoxFit.cover),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(
