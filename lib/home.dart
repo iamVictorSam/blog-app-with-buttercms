@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
-            appBar: AppBar(title: const Text('Home')),
+            appBar: AppBar(title: const Center(child: Text('Home'))),
             body: SingleChildScrollView(
                 child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
