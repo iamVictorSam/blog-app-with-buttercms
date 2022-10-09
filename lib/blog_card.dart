@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BlogCard extends StatelessWidget {
   const BlogCard(
@@ -29,7 +30,11 @@ class BlogCard extends StatelessWidget {
             children: [
               Hero(
                 tag: slug,
-                child: Image.network(image, fit: BoxFit.cover),
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  width: Get.width,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),

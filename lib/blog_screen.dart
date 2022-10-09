@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:intl/intl.dart';
@@ -25,7 +26,10 @@ class BlogScreen extends StatelessWidget {
           children: [
             Hero(
                 tag: data['slug'],
-                child: Image(image: NetworkImage(data['featured_image']))),
+                child: Image(
+                    image: NetworkImage(data['featured_image']),
+                    fit: BoxFit.cover,
+                    width: Get.width)),
             const SizedBox(height: 10),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
